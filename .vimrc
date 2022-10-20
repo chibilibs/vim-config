@@ -9,10 +9,10 @@ endif
 call plug#begin('~/.vim/plugged')
 Plug 'dense-analysis/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'jiangmiao/auto-pairs'
-Plug 'ghifarit53/tokyonight-vim'
+" bloat
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'ghifarit53/tokyonight-vim'
 call plug#end()
 
 " Settings
@@ -47,6 +47,11 @@ nnoremap <C-s> :w!<CR>
 nnoremap <C-q> :q!<CR>
 nnoremap <silent> <C-x>    :so $MYVIMRC<cr>
 nnoremap q :q<CR>
+" tabs ->
+nnoremap <C-n> :tabnew<CR>
+nnoremap <S-l> :tabnext<CR>
+nnoremap <S-h> :tabprevious<CR>
+nnoremap <C-c> :tabclose<CR>
 
 " Yank to xclip
 function Xclip() range
