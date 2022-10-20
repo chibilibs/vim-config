@@ -5,13 +5,10 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     au VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-" Plugins
+" Bloat Plugins
 call plug#begin('~/.vim/plugged')
-Plug 'dense-analysis/ale'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " bloat
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'dense-analysis/ale'
 Plug 'ghifarit53/tokyonight-vim'
 call plug#end()
 
@@ -22,20 +19,14 @@ set nocp nosmd nowrap wmnu nosc nosol ic is hls tgc
 set bg=dark enc=utf-8 tw=80 ls=0 vif=NONE ts=4 shiftwidth=4
 set ignorecase noswapfile confirm clipboard=unnamedplus
 set backspace=indent,eol,start
-set number
+set number splitbelow
 let g:ale_completion_autoimport = 1
 
 " Visual
 set termguicolors
 let g:tokyonight_style = 'night'
 let g:tokyonight_enable_italic = 1
-let g:airline_theme = "tokyonight"
-let g:airline#extensions#tabline#formatter = 'unique_tail'
 colorscheme tokyonight
-
-" Enable normal colors
-"let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-"let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
 " Cursor
 let &t_SI = "\<Esc>[6 q"
@@ -47,11 +38,6 @@ nnoremap <C-s> :w!<CR>
 nnoremap <C-q> :q!<CR>
 nnoremap <silent> <C-x>    :so $MYVIMRC<cr>
 nnoremap q :q<CR>
-" tabs ->
-nnoremap <C-n> :tabnew<CR>
-nnoremap <S-l> :tabnext<CR>
-nnoremap <S-h> :tabprevious<CR>
-nnoremap <C-c> :tabclose<CR>
 
 " Yank to xclip
 function Xclip() range
