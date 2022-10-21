@@ -5,9 +5,12 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     au VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+let g:ale_completion_enabled = 1
+let g:ale_completion_autoimport = 1
+set omnifunc=ale#completion#OmniFunc
+
 " Bloat Plugins
 call plug#begin('~/.vim/plugged')
-" bloat
 Plug 'dense-analysis/ale'
 Plug 'ghifarit53/tokyonight-vim'
 call plug#end()
@@ -20,7 +23,6 @@ set bg=dark enc=utf-8 tw=80 ls=0 vif=NONE ts=4 shiftwidth=4
 set ignorecase noswapfile confirm clipboard=unnamedplus
 set backspace=indent,eol,start
 set number splitbelow
-let g:ale_completion_autoimport = 1
 
 " Visual
 set termguicolors
