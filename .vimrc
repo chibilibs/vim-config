@@ -1,49 +1,144 @@
-" Install Plugin manager
+vim9script
+
+# Install Plug {{{1
 if empty(glob('~/.vim/autoload/plug.vim'))
-    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    au VimEnter * PlugInstall --sync | source $MYVIMRC
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  au VimEnter * :PlugInstall --sync | so $MYVIMRC
 endif
+# }}}1
 
-let g:ale_completion_enabled = 1
-let g:ale_completion_autoimport = 1
-set omnifunc=ale#completion#OmniFunc
+# Vim Settings {{{1
+# Disable Vi Compatibility {{{2
+set nocompatible
+set noloadplugins # No load default plugins
+# }}}2
+# File {{{2
+set fileencoding=utf-8
+set fileformat=unix
+# }}}2
+# Search {{{2
+set incsearch
+set ignorecase
+set smartcase
+set hlsearch
+# }}}2
+# Command-line Completion {{{2
+set wildmenu
+set wildoptions=fuzzy
+# }}}2
+# Edit {{{2
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+set expandtab
 
-" Bloat Plugins
-call plug#begin('~/.vim/plugged')
-Plug 'dense-analysis/ale'
-Plug 'ghifarit53/tokyonight-vim'
-call plug#end()
-
-" Settings
-filetype plugin on
-syntax on
-set nocp nosmd nowrap wmnu nosc nosol ic is hls tgc
-set bg=dark enc=utf-8 tw=80 ls=0 vif=NONE ts=4 shiftwidth=4
-set ignorecase noswapfile confirm clipboard=unnamedplus
 set backspace=indent,eol,start
-set number splitbelow
+set autoindent
+# }}}2
+# Features {{{2
+# Folding {{{3
+if has('folding')
+  set foldenable
+  set foldmethod=marker
+endif
+# }}}3
+# File type detection, indent and plugins {{{3
+if has('filetype')
+  filetype indent plugin on
+endif
+#}}}3
+# Syntax highlighting {{{3
+if has('syntax')
+  syntax on
+endif
+# }}}3
+# }}}2
+# Others {{{2
+# Set Leader Key {{{
+g:mapleader = " "
+# }}}
+# Use The Silver Searcher instead vimgrep {{{3
+if executable('ag')
+  set grepprg=ag\ --vimgrep
+endif
+# }}}3
 
-" Visual
-set termguicolors
-let g:tokyonight_style = 'night'
-let g:tokyonight_enable_italic = 1
-colorscheme tokyonight
+set noto ttimeout ttm=200
+set hidden
+set scrolloff=8
+set lazyredraw
+set noswapfile
+set confirm
+set nomodeline
+set nostartofline
 
-" Cursor
-let &t_SI = "\<Esc>[6 q"
-let &t_SR = "\<Esc>[4 q"
-let &t_EI = "\<Esc>[2 q"
+set clipboard+=unnamedplus
 
-" Keymap
-nnoremap <C-s> :w!<CR>
-nnoremap <C-q> :q!<CR>
-nnoremap <silent> <C-x>    :so $MYVIMRC<cr>
-nnoremap q :q<CR>
+# }}}2
+# }}}1
 
-" Yank to xclip
-function Xclip() range
-  call system('xclip -selection c,p', @r)
-  echo line("'>") - line("'<") + 1 "lines yanked to clipboard"
-endfunction
-vnoremap <C-y> "ry:call Xclip()  <cr>"
+# Visual Settings {{{1
+# Command Line {{{2
+set cmdheight=1
+set showcmd
+# }}}2
+# Status line {{{2
+set laststatus=2
+set ruler
+# }}}2
+# Theme / Colors {{{2
+set background=dark
+set tgc
+colo slate
+
+# Tricks {{{3
+&t_8f = "\e[38;2;%lu;%lu;%lum"
+&t_8b = "\e[48;2;%lu;%lu;%lum"
+set vb t_vb= # Disable visual bell
+# }}}3
+# }}}2
+# Editor {{{2
+set number
+set list
+set listchars+=tab:→\ ,eol:\ ,space:‧,nbsp:+
+# }}}2
+# Split {{{2
+set splitright
+set splitbelow
+# }}}2
+# }}}1
+
+# Plugin Settings {{{1
+# ALE {{{2
+g:ale_completion_enabled = 1
+set omnifunc=ale#completion#OmniFunc
+# }}}2
+# JAVAAAAAAAA {{{2
+g:vim_lsp_java = {
+      \ 'eclipse_jdtls': {
+        \ 'repository': expand('~/eclipse.jdt.ls/org.eclipse.jdt.ls.product/target/repository'),
+    \ 'config': 'config_linux',
+    \ 'workspace': expand('$WORKSPACE'),
+  \ },
+  \ }
+# }}}2
+# }}}1
+
+# Keybinds {{{1
+nmap     <silent> <c-l>         :noh<cr>
+nnoremap <silent> <leader>vr    :so $MYVIMRC<cr>
+nnoremap <silent> <leader><tab> :tabnew<cr>
+
+tnoremap <esc>         <c-w>N
+# }}}1
+
+# Plugins {{{1
+call plug#begin('~/.vim/plugged')
+  Plug 'dense-analysis/ale'
+call plug#end()
+# }}}1
+
+# ALE Pos-load config {{{1
+g:ale_fixers = { 'java': ['google_java_format']}
+# }}}1
